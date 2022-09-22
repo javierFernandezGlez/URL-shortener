@@ -1,0 +1,19 @@
+{{#if success_msg}}
+    {{#if success_msg.length}}
+        <div class="alert alert-success">{{success_msg }}</div>
+    {{/if}}
+{{else}}
+    {{#if error_msg}}
+        {{#if error_msg.length}}
+            <div class="alert alert-danger">{{error_msg }}</div>
+        {{/if}}
+    {{/if}}
+{{/if}}
+
+{{#if error}}
+    {{#if error.length}}
+        <div class="alert alert-danger">{{error}}</div>
+    {{/if}}
+{{/if}}
+
+{{!-- <h1>Ni</h1> --}}
