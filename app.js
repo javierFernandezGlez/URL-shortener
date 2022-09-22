@@ -3,13 +3,13 @@ const app = express();
 
 const path = require("path");
 const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
+require("dotenv/config");
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const session = require("express-session");
 const hbs = require('hbs');
 hbs.registerPartials(__dirname + '/views/partials');
-dotenv.config({path: '/config.env'});
+//dotenv.config({path: '/env'});
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const ShortUrl = require('./models/shortUrl')
@@ -18,10 +18,10 @@ const MongoStore = require("connect-mongo");
 
 const User = require('./models/user.model');
 
-mongoose.connect("mongodb://localhost/project", {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-});
+}).then(x => console.log('connected to mongodb ', x.connections[0].name));
 app.use(morgan("dev"));
 
 app.use((req,res,next) => {
@@ -40,7 +40,7 @@ app.use(session({
         maxAge: 10000000000
       }, // ADDED code below !!!
       store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost/project'
+        mongoUrl: process.env.MONGO_URI
  
         // ttl => time to live
         // ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
